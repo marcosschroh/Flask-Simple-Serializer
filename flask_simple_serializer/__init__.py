@@ -14,4 +14,5 @@ from wtforms.validators import ValidationError
 from .fields import EmailField
 from .serializers import Serializer, BaseSerializer
 
+
 __version__ = '1.0'

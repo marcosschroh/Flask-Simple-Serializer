@@ -2,8 +2,8 @@ import json
 
 from flask import Response as SimpleResponse
 
-from playground.serializer.status_codes import HTTP_200_OK
-from playground.serializer.serializers import BaseSerializer
+from .status_codes import HTTP_200_OK
+from .serializers import BaseSerializer
 
 
 class Response(SimpleResponse):
