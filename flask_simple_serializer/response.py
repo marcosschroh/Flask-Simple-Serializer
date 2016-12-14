@@ -1,6 +1,5 @@
-import json
-
 from flask import Response as SimpleResponse
+from flask import json
 
 from .status_codes import HTTP_200_OK
 from .serializers import BaseSerializer
