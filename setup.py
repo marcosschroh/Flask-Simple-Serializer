@@ -15,7 +15,7 @@ with open('README.md') as f:
 setup(
     name='Flask-Simple-Serializer',
     version='1.0',
-    url='',
+    url='https://github.com/marcosschroh/Flask-Simple-Serializer',
     license='BSD',
     author='Marcos Schroh',
     author_email='marcos.06sch@gmail.com',
@@ -28,6 +28,7 @@ setup(
         'WTForms',
         'Werkzeug',
     ],
+    packages=["flask_simple_serializer"],
     classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
