@@ -26,6 +26,7 @@ setup(
     install_requires=[
         'Flask',
         'WTForms',
+        'WTForms-Alchemy',
         'Werkzeug',
     ],
     packages=["flask_simple_serializer"],
