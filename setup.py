@@ -14,7 +14,7 @@ with open('README.md') as f:
 
 setup(
     name='Flask-Simple-Serializer',
-    version='1.1',
+    version='1.1.2',
     url='https://github.com/marcosschroh/Flask-Simple-Serializer',
     license='BSD',
     author='Marcos Schroh',
