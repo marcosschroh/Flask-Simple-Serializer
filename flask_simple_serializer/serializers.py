@@ -30,6 +30,13 @@ def serializer_factory(base=Form):
             self.validate_called = True
             return super(BaseSerializer, self).validate()
 
+        @property
+        def data(self):
+            if not self.validate_called:
+                msg = 'You must call `.is_valid()` before accessing `.data`.'
+                raise AssertionError(msg)
+            return super(BaseSerializer, self).data
+
         def validate(self):
             raise NotImplementedError
 

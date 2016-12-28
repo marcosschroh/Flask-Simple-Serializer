@@ -48,8 +48,10 @@ class ModelSerializerTest(TestCase):
     def test_data(self):
         serializer = self.model_serializer(self.valid_data())
 
-        self.assertEqual(serializer.age.data, 10)
-        self.assertEqual(serializer.first_name.data, 'Bob')
+        if serializer.is_valid():
+            self.assertEqual(serializer.age.data, 10)
+            self.assertEqual(serializer.first_name.data, 'Bob')
+            self.assertEqual(serializer.data, {'age': 10, 'first_name': 'Bob'})
 
     def test_is_valid(self):
         serializer = self.model_serializer(self.valid_data())
@@ -79,3 +81,10 @@ class ModelSerializerTest(TestCase):
 
         with self.assertRaises(AssertionError):
             serializer.errors
+
+    def test_data_before_is_valid(self):
+        # Should call .is_valid() before call .errors
+        serializer = self.model_serializer(self.valid_data())
+
+        with self.assertRaises(AssertionError):
+            serializer.data

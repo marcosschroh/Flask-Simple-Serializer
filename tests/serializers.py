@@ -37,9 +37,11 @@ class SerializerTest(TestCase):
     def test_data(self):
         serializer = self.Userserializer(self.valid_data())
 
-        self.assertEqual(serializer.username.data, 'Bob')
-        self.assertEqual(serializer.email.data, 'bob@gmail.com')
-        self.assertEqual(serializer.accept_rules.data, True)
+        if serializer.is_valid():
+            self.assertEqual(serializer.username.data, 'Bob')
+            self.assertEqual(serializer.email.data, 'bob@gmail.com')
+            self.assertEqual(serializer.accept_rules.data, True)
+            self.assertEqual(serializer.data, { 'username': 'Bob', 'accept_rules': True, 'email': 'bob@gmail.com'})
 
     def test_not_errors(self):
         serializer = self.Userserializer(self.valid_data())
@@ -59,3 +61,11 @@ class SerializerTest(TestCase):
 
         with self.assertRaises(AssertionError):
             serializer.errors
+
+    def test_data_before_is_valid(self):
+        # Should call .is_valid() before call .errors
+        serializer = self.Userserializer(self.valid_data())
+
+        with self.assertRaises(AssertionError):
+            serializer.data
+
