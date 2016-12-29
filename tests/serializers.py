@@ -4,12 +4,12 @@ from flask_simple_serializer.serializers import BaseSerializer, Serializer
 from flask_simple_serializer import StringField, BooleanField, EmailField, validators
 
 
-class BaseSerialazerTest(TestCase):
+#class BaseSerialazerTest(TestCase):
 
-    def test_empty_data(self):
+#    def test_empty_data(self):
         # Can instanciate a serializer with empty data
-        with self.assertRaises(ValueError):
-            BaseSerializer()
+#        with self.assertRaises(ValueError):
+#            BaseSerializer()
 
 
 class SerializerTest(TestCase):

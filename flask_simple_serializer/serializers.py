@@ -8,31 +8,26 @@ def serializer_factory(base=Form):
 
     class BaseSerializer(base):
 
-        def __init__(self, data_dict=None, **kwargs):
+        def __init__(self, data_dict=None, model_instance=None, **kwargs):
             # Supouse that the data is already a Python Dict
-            self.validate_called = None
+            self._validate_called = None
+            self.model_instance = model_instance
+            self.formdata = MultiDict({})
 
-            if not data_dict:
-                raise ValueError("Data must be supplied")
-
-            self.formdata = MultiDict(data_dict)
-
-            try:
-                # This section will be used to validate a json
-                self.request_data = data_dict
-            except Exception as e:
-                print(e)
-                raise ValueError("Invalid json")
+            if data_dict:
+                if not isinstance(data_dict, dict):
+                    raise ValueError("Data must be a Dict instance")
+                self.formdata = MultiDict(data_dict)
 
             super(BaseSerializer, self).__init__(formdata=self.formdata, **kwargs)
 
         def is_valid(self):
-            self.validate_called = True
+            self._validate_called = True
             return super(BaseSerializer, self).validate()
 
         @property
         def data(self):
-            if not self.validate_called:
+            if not self._validate_called:
                 msg = 'You must call `.is_valid()` before accessing `.data`.'
                 raise AssertionError(msg)
             return super(BaseSerializer, self).data
@@ -42,7 +37,7 @@ def serializer_factory(base=Form):
 
         @property
         def errors(self):
-            if not self.validate_called:
+            if not self._validate_called:
                 msg = 'You must call `.is_valid()` before accessing `.errors`.'
                 raise AssertionError(msg)
             return super(BaseSerializer, self).errors
