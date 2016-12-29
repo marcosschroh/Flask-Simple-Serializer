@@ -1,4 +1,5 @@
 from werkzeug.datastructures import MultiDict
+from collections import OrderedDict
 
 from wtforms.form import Form
 from wtforms_alchemy import ModelForm
@@ -49,8 +50,38 @@ BaseSerializer = serializer_factory()
 ModelBaseSerilizer = serializer_factory(base=ModelForm)
 
 
+class SerializerMetaclass(type):
+    """
+    This metaclass sets a dictionary named `_declared_fields` on the class.
+    Any instances of `Field` included as attributes on either the class
+    or on any of its superclasses will be include in the
+    `_declared_fields` dictionary.
+    """
+
+    @classmethod
+    def _get_declared_fields(cls, bases, attrs):
+        fields = [(field_name, attrs.pop(field_name))
+                  for field_name, obj in list(attrs.items())
+                  if isinstance(obj, dict)]
+        fields.sort(key=lambda x: x[1]._creation_counter)
+
+        # If this class is subclassing another Serializer, add that Serializer's
+        # fields.  Note that we loop over the bases in *reverse*. This is necessary
+        # in order to maintain the correct order of fields.
+        for base in reversed(bases):
+            if hasattr(base, '_declared_fields'):
+                fields = list(base._declared_fields.items()) + fields
+
+        return OrderedDict(fields)
+
+    def __new__(cls, name, bases, attrs):
+        attrs['_declared_fields'] = cls._get_declared_fields(bases, attrs)
+        return super(SerializerMetaclass, cls).__new__(cls, name, bases, attrs)
+
+
 class Serializer(BaseSerializer):
-    pass
+
+    __metaclass__ = SerializerMetaclass
 
 
 class ModelSerializer(ModelBaseSerilizer):
