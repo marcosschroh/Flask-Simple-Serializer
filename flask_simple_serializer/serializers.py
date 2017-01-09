@@ -1,3 +1,5 @@
+import six
+
 from werkzeug.datastructures import MultiDict
 from collections import OrderedDict
 
@@ -80,8 +82,7 @@ class SerializerMetaclass(type):
 
 
 class Serializer(BaseSerializer):
-
-    __metaclass__ = SerializerMetaclass
+    pass
 
 
 class ModelSerializer(ModelBaseSerilizer):

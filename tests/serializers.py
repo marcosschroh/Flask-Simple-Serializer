@@ -69,3 +69,8 @@ class SerializerTest(TestCase):
         with self.assertRaises(AssertionError):
             serializer.data
 
+    def test_without_data(self):
+        serializer = self.Userserializer()
+        self.assertEqual(serializer.is_valid(), False)
+        self.assertEqual(serializer.errors, {'accept_rules': ['This field is required.'], 'email': ['Field must be between 4 and 25 characters long.'] })
+

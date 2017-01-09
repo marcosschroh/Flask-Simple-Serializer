@@ -9,9 +9,9 @@ and rendering. It ise WTForms and cool ideas from Django-Rest-Framework
 """
 from wtforms import validators, widgets
 from wtforms.fields import *
+from wtforms_components import EmailField
 from wtforms.validators import ValidationError
 
-from .fields import EmailField
 from .serializers import Serializer, ModelSerializer
 
 
