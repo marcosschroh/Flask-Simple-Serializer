@@ -15,4 +15,4 @@ from wtforms.validators import ValidationError
 from .serializers import Serializer, ModelSerializer
 
 
-__version__ = '1.0'
+__version__ = '1.1.3'
